@@ -1,0 +1,41 @@
+name: Stats
+#cuando se va a ejecutar
+on: 
+  #Al realizar un push
+  push:
+    #El push sobre que ramas...
+    branches: [ main ]
+#Pasos
+jobs: 
+  build:
+    #En que máquina se va a ejecutar. Coger máquina en función de tarifa
+    runs-on: ubuntu-latest
+
+    #Lo requiere el use stefanzweifel/git-auto-commit-action@v7
+    permissions: 
+      contents: write
+
+    #pasos
+    steps:
+      #Obtener código de nuestro proyecto (en https://github.com/actions hay 
+      #diferentes uses que podemos usar). Buscamos checkout que permite acceder al código 
+      - name: Checkout repo
+        uses: actions/checkout@v7
+      #buscamos setup-python que permite tb registrar la versión de ejecución
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      #Corre el script
+      - name: Run script
+        run: python ./Roadmap/stats.py
+      #El fichero que se genera le tenemos que hacer un commit y un push para subirlo al repo
+      #Utilizamos la siguiente actions del marketplace https://github.com/marketplace/actions/git-auto-commit
+      - name: Commit y push
+        uses: stefanzweifel/git-auto-commit-action@v7
+        #Dentro de la documentación de la actions, permite configurar diferentes parametros
+        with:
+          commit_message: Update Stats
+          commit_user_name: Ricardo Calderón
+          commit_user_email: ricardocalderongonzalez@gmail.com 
+          commit_author: richy83
