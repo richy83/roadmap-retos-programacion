@@ -1,10 +1,12 @@
 name: Stats
 #cuando se va a ejecutar
 on: 
+  schedule:
+    - cron: '0 0 * * *'
   #Al realizar un push
-  push:
+  #push:
     #El push sobre que ramas...
-    branches: [ main ]
+    #branches: [ main ]
 #Pasos
 jobs: 
   build:
